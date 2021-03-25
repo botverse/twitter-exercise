@@ -37,7 +37,7 @@ app.route('/:handle')
 
 app.use(express.static("./public"));
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 app.listen(port, function(error) {
   console.log('POTUS listening on port ' + port);
 });
