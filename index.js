@@ -1,15 +1,16 @@
+require('dotenv').config();
+const path = require('path')
 const express = require('express');
 const Twitter = require('twitter');
 
 const client = new Twitter({
-  consumer_key: '',
-  consumer_secret: '',
-  access_token_key: '',
-  access_token_secret: ''
+  access_token_key: process.env.ACCESS_TOKEN,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+  bearer_token: process.env.BEARER_TOKEN,
 });
  
 const defaults = {
-  screen_name: 'realDonaldTrump',
+  screen_name: 'POTUS',
   tweet_mode: 'extended',
   count: 20,
 };
@@ -28,11 +29,16 @@ app.route('/:handle')
         res.json(tweets);
       } else {
         console.error(error)
+        res.statusCode = 500;
+        res.end(error.toString());
       }
     });
   });
 
-app.listen(3000, function(error) {
-  console.log('Trump listening on port 3000');
+app.use(express.static("./public"));
+
+const port = process.env.PORT || 3001;
+app.listen(port, function(error) {
+  console.log('POTUS listening on port ' + port);
 });
 
