@@ -6,7 +6,7 @@ function ErrorLabel(props) {
   }
 
   return (
-    <Alert data-testid="test-error-label" color="danger">
+    <Alert role="error-label" color="danger">
       {props.error}
     </Alert>
   );

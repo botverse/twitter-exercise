@@ -1,23 +1,6 @@
-import { defer } from "../util";
-
 // a fetcher / cache for tweets
 class TweetFetcher {
   nameToTweetsMap = {};
-  fetchDeferred = null;
-
-  fetchTweetsDeferred(username, maxId = "") {
-    if (this.fetchDeferred) {
-      return this.fetchDeferred.promise;
-    }
-    this.fetchDeferred = defer();
-    this.fetchTweets(username, maxId)
-      .then(this.fetchDeferred.resolve)
-      .catch(this.fetchDeferred.reject)
-      .finally(() => (this.fetchDeferred = null));
-
-    return this.fetchDeferred.promise;
-  }
-
   async fetchTweets(username, maxId = "") {
     let url = `/${username}`;
     if (maxId !== "") {
@@ -56,8 +39,7 @@ class TweetFetcher {
     if (tweets) {
       return tweets;
     }
-    const val = await this.fetchTweetsDeferred(username);
-    return val;
+    return await this.fetchTweets(username);
   }
 
   async moreTweets(username) {
@@ -65,7 +47,7 @@ class TweetFetcher {
     if (!tweets) {
       return this.getTweets(username);
     }
-    return await this.fetchTweetsDeferred(username, this.getOldestId(username));
+    return await this.fetchTweets(username, this.getOldestId(username));
   }
 
   getOldestId(username) {

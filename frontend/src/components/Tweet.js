@@ -12,7 +12,7 @@ import "./Tweet.css";
 
 function Tweet({ tweet }) {
   return (
-    <Card className="tweet" key={tweet.id}>
+    <Card className="tweet">
       <CardBody>
         <CardTitle tag="h5">
           <span className="avatar-image">
@@ -26,7 +26,7 @@ function Tweet({ tweet }) {
           </span>
         </CardTitle>
         <CardSubtitle tag="h6" className="mb-2 text-muted">
-          @{tweet.user.screen_name}
+          {`@${tweet.user.screen_name}`}
         </CardSubtitle>
         <CardText
           dangerouslySetInnerHTML={{ __html: tweetMarkup(tweet) }}

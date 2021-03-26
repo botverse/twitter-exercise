@@ -1,4 +1,12 @@
-default: public/index.html
+default: build
+
+build: public/index.html node_modules
+
+clean:
+	-rm -rf node_modules
+	-rm -rf public
+	-rm -rf frontend/node_modules
+	-rm -rf frontend/build
 
 run: node_modules public/index.html .env
 	node .
@@ -21,4 +29,4 @@ public/index.html: frontend/build/index.html public
 frontend/build/index.html: frontend/node_modules
 	cd frontend ;	npm run build
 
-.PHONY: run default
+.PHONY: run default clean build

@@ -25,7 +25,7 @@ function LoadScroller({ loading, onScrolledTo, ...props }) {
     <div ref={ref} className="load-scroller">
       {loading ? (
         <Spinner
-          data-testid="test-scroller"
+          role="loading-spinner"
           className="loading-spinner"
           color="primary"
         />
