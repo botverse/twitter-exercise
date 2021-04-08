@@ -1,11 +1,12 @@
 import "./App.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { TweetFetcher } from "../twitter";
 import { Container, Row, Col, Navbar, Nav, NavItem } from "reactstrap";
 import LoadScroller from "./LoadScroller";
 import ErrorLabel from "./ErrorLabel";
 import Tweets from "./Tweets";
 import UsernameSelector from "./UsernameSelector";
+import debounce from 'lodash.debounce';
 
 const STARTING_USERNAMES = ["@POTUS", "@elonmusk"];
 
@@ -20,14 +21,14 @@ function App() {
   const usernameRef = useRef(username);
   const loadingRef = useRef(loading);
 
-  const onScrolled = () => {
+  const onScrolled = useCallback(debounce(() => {
     if (loadingRef.current || !usernameRef.current) {
       return;
     }
 
     setLoading(true);
     fetchMore();
-  };
+  }), []);
 
   const fetchMore = async () => {
     try {

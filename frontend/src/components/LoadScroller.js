@@ -19,9 +19,8 @@ function LoadScroller({ loading, onScrolledTo, ...props }) {
       }
     };
     const observerOptions = {
-      //root: ref.current,
+      root: window.document,
       rootMargin: '500px 0px 0px 0px',
-      //threshold: 1.0
     }
     const observer = new IntersectionObserver(onIntersection, observerOptions);
     const spinner = ref.current;
