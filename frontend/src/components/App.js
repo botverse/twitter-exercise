@@ -20,8 +20,8 @@ function App() {
   const usernameRef = useRef(username);
   const loadingRef = useRef(loading);
 
-  const onScrolled = (e) => {
-    if (loadingRef.current) {
+  const onScrolled = () => {
+    if (loadingRef.current || !usernameRef.current) {
       return;
     }
 

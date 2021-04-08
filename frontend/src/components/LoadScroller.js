@@ -9,16 +9,27 @@ function LoadScroller({ loading, onScrolledTo, ...props }) {
     if (!onScrolledTo) {
       return;
     }
-    const onScroll = (e) => {
-      const cr = ref.current.getBoundingClientRect();
-      if (cr.top <= window.innerHeight) {
-        onScrolledTo(e);
+
+    const onIntersection = (entries, observer) => {
+      for (let entry of entries) {
+        if (entry.isIntersecting) {
+          onScrolledTo();
+          break;
+        }
       }
     };
-    window.addEventListener("scroll", onScroll);
+    const observerOptions = {
+      //root: ref.current,
+      rootMargin: '500px 0px 0px 0px',
+      //threshold: 1.0
+    }
+    const observer = new IntersectionObserver(onIntersection, observerOptions);
+    const spinner = ref.current;
+    observer.observe(spinner);
     return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
+      observer.disconnect(spinner);
+    }
+
   }, [onScrolledTo]);
 
   return (
